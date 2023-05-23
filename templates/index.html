@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEMANTIC UI-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+    
+
+    <title>Stock App</title>
+</head>
+<body>
+    <div class="ui secondary  menu">
+        <a  href='/' class="item">
+          Stocks
+        </a>
+        <a href="/myWatchList" class="item">
+          Watch List
+        </a>
+        <a href='/orders' class="item">
+          Order History
+        </a>
+        <div class="right menu">
+          <div class="item">
+            <div class="ui icon">
+                <form method="get">
+                    <input class="ui input" name="add_stock" type="text"/>
+                    <input value="Search" type="submit">
+                </form>
+            </div>
+          </div>
+          <a class="ui item">
+            Logout
+          </a>
+        </div>
+      </div>
+    <div class="ui container">
+        <h1>Stock List</h1>
+        <table class="ui striped inverted table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>RSI 14</th>
+                <th>SMA 20</th>
+                <th>SMA 50</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+              <tr>
+                <td>{{ stock.id }}</td>
+                <td>{{ stock.symbol }}</td>
+                <td><a href="/stock/{{ stock.symbol }}">{{ stock.name }}</a></td>
+                {% if indicator_values[stock.symbol] %}
+                    {% if indicator_values[stock.symbol].close %}
+                        <td>{{indicator_values[stock.symbol].close|round(2)}}</td>
+                    {% else %}
+                        <td>N/A</td>
+                    {% endif %}
+                    {% if indicator_values[stock.symbol].rsi_14 %}
+                        <td>{{indicator_values[stock.symbol].rsi_14|round(2)}}</td>
+                    {% else %}
+                        <td>N/A</td>
+                    {% endif %}
+                    {% if indicator_values[stock.symbol].sma_20 %}
+                        <td>{{indicator_values[stock.symbol].sma_20|round(2)}}</td>
+                    {% else %}
+                        <td>N/A</td>
+                    {% endif %}
+                    {% if indicator_values[stock.symbol].sma_50 %}
+                        <td>{{indicator_values[stock.symbol].sma_50|round(2)}}</td>
+                    {% else %}
+                        <td>N/A</td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
