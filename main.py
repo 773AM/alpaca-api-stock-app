@@ -111,6 +111,6 @@ def orders(request: Request):
         status='all'
     )
     account_orders = trading_client.get_orders(request_params)
-    print(account_orders)
+
 
     return templates.TemplateResponse("orders.html", {"request": request, "Orders": account_orders})
